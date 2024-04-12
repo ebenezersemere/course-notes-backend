@@ -22,6 +22,8 @@ public class UserService {
         return user.orElse(null);
     }
 
+    // http://localhost:8080/swagger-ui/index.html/
+
     // create
     public UserModel createUser(UserModel user) {
         return userRepository.save(user);
