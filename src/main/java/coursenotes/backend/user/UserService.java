@@ -17,7 +17,7 @@ public class UserService {
     }
 
     // get
-    public UserModel getUser(int id) {
+    public UserModel getUser(Long id) {
         Optional<UserModel> user = userRepository.findById(id);
         return user.orElse(null);
     }
@@ -30,7 +30,8 @@ public class UserService {
     }
 
     // update
-    public void updateUser(int id, UserModel user) {
+
+    public void updateUser(Long id, UserModel user) {
         Optional<UserModel> userOptional = userRepository.findById(id);
         if (userOptional.isPresent()) {
             UserModel formerUser = getUser(id);
@@ -42,7 +43,7 @@ public class UserService {
     }
 
     // delete
-    public void deleteUser(int id) {
+    public void deleteUser(Long id) {
         Optional<UserModel> user = userRepository.findById(id);
         if (user.isPresent()) {
             userRepository.deleteById(id);
