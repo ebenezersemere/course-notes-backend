@@ -16,6 +16,7 @@
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
+  
 	<dependencies>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -24,7 +25,6 @@
 			<scope>provided</scope>
 		</dependency>
 
-
 		<!-- https://mvnrepository.com/artifact/org.mnode.ical4j/ical4j -->
 		<dependency>
 			<groupId>org.mnode.ical4j</groupId>
@@ -32,7 +32,10 @@
 			<version>4.0.0-alpha12</version>
 		</dependency>
 
-
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -51,10 +54,12 @@
 			<version>2.1.214</version>
 		</dependency>
 
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -68,6 +73,7 @@
 			<artifactId>springdoc-openapi-ui</artifactId>
 			<version>1.6.8</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
