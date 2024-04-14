@@ -19,5 +19,9 @@ public class CourseController {
     public ResponseEntity<List<CourseModel>> uploadSchedule(@RequestParam String scheduleLink) throws ParserException, IOException {
         return courseService.uploadSchedule(scheduleLink);
     }
+    @GetMapping("/{courseId}/folders")
+    public List<Folder> getFoldersInCourse(@PathVariable Long courseId) {
+        return courseService.getFoldersInCourse(courseId);
+    }
 
 }

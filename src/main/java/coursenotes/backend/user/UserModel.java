@@ -1,10 +1,12 @@
 package coursenotes.backend.user;
+import coursenotes.backend.directory.DirectoryModel;
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Setter
@@ -21,6 +23,10 @@ public class UserModel {
     private String lastName;
     private String firstName;
     private String email;
+
+    @OneToMany(mappedBy = "DirectoryModel")
+    private List<DirectoryModel> directoryModels;
+
 
     public UserModel() {
 
