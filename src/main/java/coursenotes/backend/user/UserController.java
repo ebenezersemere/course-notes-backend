@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -15,23 +16,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/userauth")
-    public Map<String, Object> user(@AuthenticationPrincipal OAuth2User principal) {
-        return Collections.singletonMap("name", principal.getAttributes());
-    }
-
     // get
-    @GetMapping("/user/{id}")
+    @GetMapping("/user")
     @ResponseStatus(HttpStatus.OK)
-    public UserModel getUser(@PathVariable Long id) {
-        return userService.getUser(id);
-    }
-
-    // create
-    @PostMapping("/user/")
-    @ResponseStatus(HttpStatus.CREATED)
-    public UserModel createUser(@RequestBody UserModel user) {
-        return userService.createUser(user);
+    public UserModel getUser(@AuthenticationPrincipal OAuth2User principal) {
+        return userService.getUser(principal);
     }
 
     // update

@@ -1,6 +1,8 @@
 package coursenotes.backend.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,12 +19,21 @@ public class UserService {
     }
 
     // get
-    public UserModel getUser(Long id) {
-        Optional<UserModel> user = userRepository.findById(id);
-        return user.orElse(null);
-    }
+    public UserModel getUser(OAuth2User principal) {
+        int googleId = principal.getAttribute("id");
+        UserModel user = userRepository.findByGoogleId(googleId);
 
-    // http://localhost:8080/swagger-ui/index.html/
+        if (user == null) {
+            UserModel newUser = new UserModel();
+            newUser.setGoogleId(googleId);
+            newUser.setFirstName(principal.getAttribute("name"));
+            newUser.setLastName(principal.getAttribute("family_name"));
+            newUser.setEmail(principal.getAttribute("email"));
+            return userRepository.save(newUser);
+        }
+
+        return user;
+    }
 
     // create
     public UserModel createUser(UserModel user) {
@@ -30,14 +41,12 @@ public class UserService {
     }
 
     // update
-
-    public void updateUser(Long id, UserModel user) {
+    public void updateUser(Long id, UserModel formerUser) {
         Optional<UserModel> userOptional = userRepository.findById(id);
         if (userOptional.isPresent()) {
-            UserModel formerUser = getUser(id);
-            formerUser.setFirstName(user.getFirstName());
-            formerUser.setLastName(user.getLastName());
-            formerUser.setEmail((user.getEmail()));
+            formerUser.setFirstName(formerUser.getFirstName());
+            formerUser.setLastName(formerUser.getLastName());
+            formerUser.setEmail((formerUser.getEmail()));
             userRepository.save(formerUser);
         }
     }
@@ -49,6 +58,4 @@ public class UserService {
             userRepository.deleteById(id);
         }
     }
-
-
 }
