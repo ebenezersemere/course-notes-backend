@@ -20,7 +20,7 @@ public class SecurityConfig {
                 })
                 .oauth2Login(withDefaults())
                 .csrf().disable() // for swagger to work, disable in production
-                .formLogin(withDefaults())
+//                .formLogin(withDefaults())
                 .build();
     }
 }
