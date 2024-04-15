@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.UUID;
 
 @Setter
 @Getter
@@ -26,7 +27,14 @@ public class UserModel {
     private int googleId;
 
     public UserModel() {
+    }
 
+    public UserModel(Long userModelId, String lastName, String firstName, String email, int googleId) {
+        UserModelId = userModelId;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.email = email;
+        this.googleId = googleId;
     }
 
     public Long getUserModelId() {

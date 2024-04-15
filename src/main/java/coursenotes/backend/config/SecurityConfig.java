@@ -15,7 +15,7 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests( auth -> {
-                            auth.antMatchers("/auth/signin", "/auth/signup").permitAll();
+//                            auth.antMatchers("/auth/signin", "/auth/signup").permitAll();
                             auth.anyRequest().authenticated();
                 })
                 .oauth2Login(withDefaults())
