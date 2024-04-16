@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 public class UserController {
     @Autowired
@@ -19,14 +21,14 @@ public class UserController {
     // update
     @PutMapping("/user/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateUser(@PathVariable Long id, @RequestBody User user) {
-        userService.updateUser(id, user);
+    public void updateUser(@PathVariable UUID userId, @RequestBody User user) {
+        userService.updateUser(userId, user);
     }
 
     // delete
     @DeleteMapping("/user/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+    public void deleteUser(@PathVariable UUID userId) {
+        userService.deleteUser(userId);
     }
 }

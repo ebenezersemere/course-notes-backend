@@ -1,13 +1,17 @@
 package coursenotes.backend.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import coursenotes.backend.directory.Directory;
+import coursenotes.backend.file.File;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import java.nio.file.Files;
+import java.util.List;
 import java.util.UUID;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Setter
 @Getter
 @Data
@@ -17,24 +21,24 @@ import java.util.UUID;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID UserModelId;
+    @Column(name = "user_id")
+    private UUID userId;
 
+    @Column(name = "last_name")
     private String lastName;
+
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "email")
     private String email;
 
-    // OAuth2User principal.getAttribute("id")
-    private int googleId;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<File> files;
 
-    public User() {
-    }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Directory> directories;
 
-    public User(UUID userModelId, String lastName, String firstName, String email, int googleId) {
-        UserModelId = userModelId;
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.email = email;
-        this.googleId = googleId;
-    }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 
 }

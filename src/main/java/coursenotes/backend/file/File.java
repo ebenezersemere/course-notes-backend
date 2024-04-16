@@ -1,41 +1,45 @@
 package coursenotes.backend.file;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import coursenotes.backend.user.User;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Data
-@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Setter
+@Getter
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(name = "files")
+@Table(name = "file")
 public class File {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @Column(name = "file_id")
+    private UUID fileId;
 
-    String fileName;
-    LocalDateTime dateCreated;
-    LocalDateTime dateModified;
-    Boolean isShared;
-    String fileUrl;
+    @Column(name = "file_name")
+    private String fileName;
 
-    public File() {
-    }
+    @Column(name = "date_created")
+    private LocalDateTime dateCreated;
 
-    public File(UUID id, String fileName, LocalDateTime dateCreated, LocalDateTime dateModified, Boolean isShared, String fileUrl) {
-        this.id = id;
-        this.fileName = fileName;
-        this.dateCreated = dateCreated;
-        this.dateModified = dateModified;
-        this.isShared = isShared;
-        this.fileUrl = fileUrl;
-    }
+    @Column(name = "date_modified")
+    private LocalDateTime dateModified;
+
+    @Column(name = "is_shared")
+    private Boolean isShared;
+
+    @Column(name = "file_url")
+    private String fileUrl;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+
 }
 
