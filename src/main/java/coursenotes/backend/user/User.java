@@ -1,6 +1,7 @@
 package coursenotes.backend.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import coursenotes.backend.course.Course;
 import coursenotes.backend.directory.Directory;
 import coursenotes.backend.file.File;
 import jakarta.persistence.*;
@@ -33,12 +34,14 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    // RELATIONSHIPS
+    @ManyToMany
     private List<File> files;
+
+    @ManyToMany
+    private List<Course> courses;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Directory> directories;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 
 }

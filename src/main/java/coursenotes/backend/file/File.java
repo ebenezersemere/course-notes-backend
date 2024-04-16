@@ -1,11 +1,13 @@
 package coursenotes.backend.file;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import coursenotes.backend.directory.Directory;
 import coursenotes.backend.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -36,10 +38,17 @@ public class File {
     @Column(name = "file_url")
     private String fileUrl;
 
+    // RELATIONSHIPS
+    @ManyToMany
+    @JoinTable(
+            name = "user_file",
+            joinColumns = @JoinColumn(name = "file_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> users;
+
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-
+    @JoinColumn(name = "directory_id")
+    private Directory directory;
 }
 

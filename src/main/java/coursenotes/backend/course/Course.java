@@ -1,12 +1,14 @@
 package coursenotes.backend.course;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import coursenotes.backend.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -27,4 +29,12 @@ public class Course {
     private String courseDescription;
     private String courseLocation;
 
+    // RELATIONSHIPS
+    @ManyToMany
+    @JoinTable(
+            name = "user_course",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> users;
 }

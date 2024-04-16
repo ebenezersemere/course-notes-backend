@@ -57,7 +57,7 @@ public class CourseService {
                 String location = event.getProperty(Property.LOCATION).isPresent() ? event.getProperty(Property.LOCATION).get().getValue() : null;
 
                 // create CourseModel object
-                Course course = new Course(null, uid, name, description, location);
+                Course course = new Course(null, uid, name, description, location, null);
                 courses.add(course);
             }
         }
