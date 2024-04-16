@@ -16,7 +16,7 @@ public class CourseController {
     private CourseService courseService;
 
     @PostMapping("/uploadSchedule")
-    public ResponseEntity<List<CourseModel>> uploadSchedule(@RequestParam String scheduleLink) throws ParserException, IOException {
+    public ResponseEntity<List<Course>> uploadSchedule(@RequestParam String scheduleLink) throws ParserException, IOException {
         return courseService.uploadSchedule(scheduleLink);
     }
 

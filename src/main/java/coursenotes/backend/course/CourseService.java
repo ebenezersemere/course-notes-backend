@@ -24,8 +24,8 @@ public class CourseService {
      * @throws ParserException if there is an error parsing the .ics file using ical4j
      * @throws IOException if there is an error reading the .ics file from the URL
      */
-    public ResponseEntity<List<CourseModel>> uploadSchedule(String scheduleLink) throws ParserException, IOException {
-        List<CourseModel> extractedInfo = extractInfoFromCalendar(scheduleLink);
+    public ResponseEntity<List<Course>> uploadSchedule(String scheduleLink) throws ParserException, IOException {
+        List<Course> extractedInfo = extractInfoFromCalendar(scheduleLink);
         return ResponseEntity.ok(extractedInfo);
     }
 
@@ -36,7 +36,7 @@ public class CourseService {
      * @throws ParserException if there is an error parsing the .ics file using ical4j
      * @throws IOException if there is an error reading the .ics file from the URL
      */
-    private List<CourseModel> extractInfoFromCalendar(String scheduleLink) throws ParserException, IOException {
+    private List<Course> extractInfoFromCalendar(String scheduleLink) throws ParserException, IOException {
         // download file
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.getForEntity(scheduleLink, String.class);
@@ -45,11 +45,11 @@ public class CourseService {
         Calendar calendar = builder.build(new StringReader(coursesBody));
 
         // populate list of CourseModel objects
-        List<CourseModel> courseModels = new ArrayList<>();
+        List<Course> courses = new ArrayList<>();
         for (CalendarComponent component : calendar.getComponents()) {
             if (component instanceof VEvent event) {
                 // Extract event properties
-                CourseModel eventCourseModel = new CourseModel();
+                Course eventCourse = new Course();
 
                 String uid = event.getProperty(Property.UID).isPresent() ? event.getProperty(Property.UID).get().getValue() : null;
                 String name = event.getProperty(Property.SUMMARY).isPresent() ? event.getProperty(Property.SUMMARY).get().getValue() : null;
@@ -57,10 +57,10 @@ public class CourseService {
                 String location = event.getProperty(Property.LOCATION).isPresent() ? event.getProperty(Property.LOCATION).get().getValue() : null;
 
                 // create CourseModel object
-                CourseModel courseModel = new CourseModel(uid, name, description, location);
-                courseModels.add(courseModel);
+                Course course = new Course(null, uid, name, description, location);
+                courses.add(course);
             }
         }
-        return courseModels;
+        return courses;
     }
 }
