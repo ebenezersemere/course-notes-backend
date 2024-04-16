@@ -30,16 +30,14 @@ public class Directory {
     @OneToMany(mappedBy = "parentDirectory", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Directory> childDirectories;
 
-    @OneToMany(mappedBy = "directory", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<File> files;
-
     @ManyToOne
     @JoinColumn(name = "parent_directory_id")
     private Directory parentDirectory;
 
+    @OneToMany(mappedBy = "directory", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<File> files;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
-
 }
