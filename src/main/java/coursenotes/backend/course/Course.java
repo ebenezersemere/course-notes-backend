@@ -1,5 +1,7 @@
 package coursenotes.backend.course;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import coursenotes.backend.folder.Folder;
 import coursenotes.backend.user.User;
 import jakarta.persistence.*;
@@ -11,6 +13,7 @@ import lombok.Setter;
 
 import java.util.List;
 
+@JsonTypeName("course")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -36,7 +39,7 @@ public class Course extends Folder {
     @Enumerated(EnumType.STRING)
     private courseSemester courseSemester;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "user_course",
             joinColumns = @JoinColumn(name = "course_id"),

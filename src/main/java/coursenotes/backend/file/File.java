@@ -42,7 +42,7 @@ public class File {
 //    private String fileUrl;
 
     // RELATIONSHIPS
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "user_file",
             joinColumns = @JoinColumn(name = "file_id"),
