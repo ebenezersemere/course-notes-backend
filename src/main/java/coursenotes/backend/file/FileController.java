@@ -20,7 +20,7 @@ public class FileController {
     @PostMapping("/files")
     public ResponseEntity<File> createFile(@RequestBody File file) {
         File createdFile = fileService.createFile(file);
-        return ResponseEntity.ok(file);
+        return ResponseEntity.ok(createdFile);
     }
 
     // read a file by its id

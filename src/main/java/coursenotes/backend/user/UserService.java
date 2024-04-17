@@ -16,34 +16,14 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    // get all
-    public List<User> getUsers() {
-        return userRepository.findAll();
-    }
-
-//    // get
-//    public UserModel getUser(OAuth2User principal) {
-//        int googleId = principal.getAttribute("id");
-//        UserModel user = userRepository.findByGoogleId(googleId);
-//
-//        if (user == null) {
-//            UserModel newUser = new UserModel();
-//            newUser.setGoogleId(googleId);
-//            newUser.setFirstName(principal.getAttribute("name"));
-//            newUser.setLastName(principal.getAttribute("family_name"));
-//            newUser.setEmail(principal.getAttribute("email"));
-//            return userRepository.save(newUser);
-//        }
-//
-//        return user;
-//    }
-
-    // create
     public User createUser(User user) {
         return userRepository.save(user);
     }
 
-    // update
+    public User readUser(UUID userId) {
+        return userRepository.findById(userId).orElse(null);
+    }
+
     public void updateUser(UUID userId, User formerUser) {
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isPresent()) {
@@ -54,7 +34,6 @@ public class UserService {
         }
     }
 
-    // delete
     public void deleteUser(UUID userId) {
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
