@@ -26,6 +26,7 @@ public class Directory {
     @Column(name = "directory_name")
     private String directoryName;
 
+
     // RELATIONSHIPS
     @OneToMany(mappedBy = "parentDirectory", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Directory> childDirectories;
