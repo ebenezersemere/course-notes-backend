@@ -1,7 +1,7 @@
 package coursenotes.backend.file;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import coursenotes.backend.directory.Directory;
+import coursenotes.backend.folder.Folder;
 import coursenotes.backend.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -48,8 +48,8 @@ public class File {
     private List<User> users;
 
     @ManyToOne
-    @JoinColumn(name = "directory_id")
-    private Directory directory;
+    @JoinColumn(name = "folder_id")
+    private Folder folder;
 
     @ManyToOne
     @JoinColumn(name = "author_id")

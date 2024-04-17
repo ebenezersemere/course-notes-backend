@@ -1,5 +1,6 @@
 package coursenotes.backend.course;
-
+import coursenotes.backend.course.Course;
+import coursenotes.backend.course.CourseService;
 import net.fortuna.ical4j.data.ParserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,8 @@ public class CourseController {
 
     @PostMapping("/uploadSchedule")
     public ResponseEntity<List<Course>> uploadSchedule(@RequestParam String scheduleLink) throws ParserException, IOException {
-        return courseService.uploadSchedule(scheduleLink);
+        List<Course> courses = courseService.uploadSchedule(scheduleLink);
+        return ResponseEntity.ok(courses);
     }
 
 }

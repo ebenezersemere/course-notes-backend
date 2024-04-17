@@ -1,43 +1,22 @@
 package coursenotes.backend.directory;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import coursenotes.backend.course.Course;
-import coursenotes.backend.file.File;
+import coursenotes.backend.folder.Folder;
 import coursenotes.backend.user.User;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
-import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "directory")
-public class Directory {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "directory_id")
-    private UUID directoryId;
-
-    @Column(name = "directory_name")
-    private String directoryName;
-
-
-    // RELATIONSHIPS
-    @OneToMany(mappedBy = "parentDirectory", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Directory> childDirectories;
-
-    @ManyToOne
-    @JoinColumn(name = "parent_directory_id")
-    private Directory parentDirectory;
-
-    @OneToMany(mappedBy = "directory", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<File> files;
-
+public class Directory extends Folder {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

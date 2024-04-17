@@ -7,7 +7,6 @@ import coursenotes.backend.file.File;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.nio.file.Files;
 import java.util.List;
 import java.util.UUID;
 

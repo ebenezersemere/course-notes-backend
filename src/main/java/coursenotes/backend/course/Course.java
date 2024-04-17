@@ -1,42 +1,33 @@
 package coursenotes.backend.course;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import coursenotes.backend.folder.Folder;
 import coursenotes.backend.user.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "course")
-public class Course {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID courseId;
-
+public class Course extends Folder {
     @Column(name = "course_uid")
     private String courseUID;
 
-    @Column(name = "course_name")
-    private String courseName;
-
-    @Column(name = "course_description")
+    @Column(name = "course_description", columnDefinition = "TEXT")
     private String courseDescription;
 
     @Column(name = "course_location")
     private String courseLocation;
 
-    private enum courseSemester {
+    enum courseSemester {
         Spring2024
     }
 
@@ -44,7 +35,6 @@ public class Course {
     @Enumerated(EnumType.STRING)
     private courseSemester courseSemester;
 
-    // RELATIONSHIPS
     @ManyToMany
     @JoinTable(
             name = "user_course",

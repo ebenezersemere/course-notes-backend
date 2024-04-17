@@ -6,6 +6,7 @@ import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Property;
 import net.fortuna.ical4j.model.component.CalendarComponent;
 import net.fortuna.ical4j.model.component.VEvent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -17,6 +18,9 @@ import java.util.List;
 
 @Service
 public class CourseService {
+    @Autowired
+    private CourseRepository courseRepository;
+
     /**
      * uploadSchedule takes a scheduleLink and populates a list of CourseModel objects
      * @param scheduleLink a String representing the URL of the .ics file
@@ -24,9 +28,9 @@ public class CourseService {
      * @throws ParserException if there is an error parsing the .ics file using ical4j
      * @throws IOException if there is an error reading the .ics file from the URL
      */
-    public ResponseEntity<List<Course>> uploadSchedule(String scheduleLink) throws ParserException, IOException {
-        List<Course> extractedInfo = extractInfoFromCalendar(scheduleLink);
-        return ResponseEntity.ok(extractedInfo);
+    public List<Course> uploadSchedule(String scheduleLink) throws ParserException, IOException {
+        List<Course> courses = extractInfoFromCalendar(scheduleLink);
+        return courseRepository.saveAll(courses);
     }
 
     /**
@@ -57,7 +61,12 @@ public class CourseService {
                 String location = event.getProperty(Property.LOCATION).isPresent() ? event.getProperty(Property.LOCATION).get().getValue() : null;
 
                 // create CourseModel object
-                Course course = new Course(null, uid, name, description, location, null);
+                Course course = new Course(uid, description, location, Course.courseSemester.Spring2024, null);
+                course.setFolderName(name);
+                course.setParentFolder(null);
+                course.setChildFolders(null);
+//                course.setUsers(course.getUsers().add(User user)); TODO: add user to course
+
                 courses.add(course);
             }
         }
