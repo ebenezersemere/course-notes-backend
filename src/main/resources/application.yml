@@ -22,5 +22,8 @@ spring:
           github:
             client-id: ${GITHUB_CLIENT_ID}
             client-secret: ${GITHUB_CLIENT_SECRET}
+  springdoc:
+    swagger-ui:
+      path: /swagger-ui.html
   config:
     import: secrets.properties
