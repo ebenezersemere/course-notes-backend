@@ -8,8 +8,12 @@ import java.util.UUID;
 
 @RestController
 public class UserController {
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
 //    // get
 //    @GetMapping("/user")
@@ -19,14 +23,14 @@ public class UserController {
 //    }
 
     // update
-    @PutMapping("/user/{id}")
+    @PutMapping("/user/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateUser(@PathVariable UUID userId, @RequestBody User user) {
         userService.updateUser(userId, user);
     }
 
     // delete
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/user/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable UUID userId) {
         userService.deleteUser(userId);

@@ -28,7 +28,8 @@ public class Course extends Folder {
     private String courseLocation;
 
     enum courseSemester {
-        Spring2024
+        Spring2024,
+        Fall2024
     }
 
     @Column(name = "course_semester")
