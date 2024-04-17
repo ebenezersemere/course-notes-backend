@@ -50,5 +50,9 @@ public class File {
     @ManyToOne
     @JoinColumn(name = "directory_id")
     private Directory directory;
+
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private User author;
 }
 

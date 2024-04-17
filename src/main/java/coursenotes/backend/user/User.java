@@ -38,6 +38,9 @@ public class User {
     @ManyToMany
     private List<File> files;
 
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<File> authoredFiles;
+
     @ManyToMany
     private List<Course> courses;
 
