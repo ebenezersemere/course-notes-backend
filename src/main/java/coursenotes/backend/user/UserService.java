@@ -9,8 +9,12 @@ import java.util.UUID;
 
 @Service
 public class UserService {
-    @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     // get all
     public List<User> getUsers() {

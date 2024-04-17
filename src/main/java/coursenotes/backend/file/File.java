@@ -35,8 +35,11 @@ public class File {
     @Column(name = "is_shared")
     private Boolean isShared;
 
-    @Column(name = "file_url")
-    private String fileUrl;
+    @Column(name = "file_body", columnDefinition = "TEXT")
+    private String fileBody;
+
+//    @Column(name = "file_url")
+//    private String fileUrl;
 
     // RELATIONSHIPS
     @ManyToMany
