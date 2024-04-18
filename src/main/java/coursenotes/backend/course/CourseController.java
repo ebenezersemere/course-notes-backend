@@ -21,27 +21,27 @@ public class CourseController {
 
     // create a course
     @PostMapping("/courses")
-    public ResponseEntity<Course> createCourse(@RequestParam Course course) {
+    public ResponseEntity<Course> createCourse(@RequestBody Course course) {
         Course createdCourse = courseService.createCourse(course);
         return ResponseEntity.ok(createdCourse);
     }
 
     // read a course by its id
     @GetMapping("/courses/{courseId}")
-    public ResponseEntity<Course> readCourse(@RequestParam UUID courseId) {
+    public ResponseEntity<Course> readCourse(@PathVariable UUID courseId) {
         Course course = courseService.readCourse(courseId);
         return ResponseEntity.ok(course);
     }
 
     // update a course by its id
     @PutMapping("/courses/{courseId}")
-    public void updateCourse(@RequestParam UUID courseId, @RequestParam Course course) {
+    public void updateCourse(@PathVariable UUID courseId, @PathVariable Course course) {
         courseService.updateCourse(courseId, course);
     }
 
     // delete a course
     @DeleteMapping("/courses/{courseId}")
-    public void deleteCourse(@RequestParam UUID courseId) {
+    public void deleteCourse(@PathVariable UUID courseId) {
         courseService.deleteCourse(courseId);
     }
 

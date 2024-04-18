@@ -1,6 +1,7 @@
 package coursenotes.backend.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import coursenotes.backend.course.Course;
 import coursenotes.backend.directory.Directory;
 import coursenotes.backend.file.File;
@@ -38,12 +39,14 @@ public class User {
     private List<File> files;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("author-file")
     private List<File> authoredFiles;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Course> courses;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("user-directory")
     private List<Directory> directories;
 
 }

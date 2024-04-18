@@ -1,8 +1,6 @@
 package coursenotes.backend.folder;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.*;
 import coursenotes.backend.course.Course;
 import coursenotes.backend.directory.Directory;
 import coursenotes.backend.file.File;
@@ -37,15 +35,17 @@ public abstract class Folder {
     @Column(name = "folder_name")
     private String folderName;
 
-    private String type;
 
     @OneToMany(mappedBy = "folder", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("folder-file")
     private List<File> files;
 
     @OneToMany(mappedBy = "parentFolder", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("folder-folder")
     private List<Folder> childFolders;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "parent_folder_id")
+    @JsonBackReference("folder-folder")
     private Folder parentFolder;
 }
