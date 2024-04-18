@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -14,6 +15,12 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<List<User>> getUsers() {
+        List<User> users = userService.getUsers();
+        return ResponseEntity.ok(users);
     }
 
     @PostMapping("/user")

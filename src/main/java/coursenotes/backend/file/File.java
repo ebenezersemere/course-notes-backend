@@ -1,5 +1,6 @@
 package coursenotes.backend.file;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import coursenotes.backend.folder.Folder;
 import coursenotes.backend.user.User;
@@ -52,10 +53,12 @@ public class File {
 
     @ManyToOne
     @JoinColumn(name = "folder_id")
+    @JsonBackReference("folder-file")
     private Folder folder;
 
     @ManyToOne
     @JoinColumn(name = "author_id")
+    @JsonBackReference("author-file")
     private User author;
 }
 
