@@ -1,0 +1,29 @@
+services:
+  backend:
+    image: 'spring:latest'
+    build: .
+    container_name: backend_container
+    ports:
+      - 8080:8080
+    environment:
+      - db-url=jdbc:postgresql://db:5432/backend-data-postgres
+      - db-username=postgres
+      - db-password=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      - db
+    restart:
+        always
+  db:
+    ports:
+      - 5432:5432
+    container_name: postgresql_container
+    image: postgres
+    environment:
+      - POSTGRES_DB=backend-data-postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - /var/lib/postgresql/data
+    restart:
+        always
