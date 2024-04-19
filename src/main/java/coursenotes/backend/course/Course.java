@@ -6,18 +6,17 @@ import coursenotes.backend.folder.Folder;
 import coursenotes.backend.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @JsonTypeName("course")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
+@Data
 @Entity
 @Table(name = "course")
 public class Course extends Folder {
