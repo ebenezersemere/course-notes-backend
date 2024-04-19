@@ -31,7 +31,7 @@ public class FileService {
             updatedFile.setDateModified(file.getDateModified());
             updatedFile.setIsShared(file.getIsShared());
             updatedFile.setFileBody(file.getFileBody());
-            updatedFile.setUsers(file.getUsers());
+//            updatedFile.setUsers(file.getUsers());
             updatedFile.setFolder(file.getFolder());
             updatedFile.setAuthor(file.getAuthor());
             fileRepository.save(updatedFile);

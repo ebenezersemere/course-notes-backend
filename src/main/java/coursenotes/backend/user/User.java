@@ -8,6 +8,7 @@ import coursenotes.backend.file.File;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,17 +37,17 @@ public class User {
 
     // RELATIONSHIPS
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<File> files;
+    private List<File> files = new ArrayList<>();
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference("author-file")
-    private List<File> authoredFiles;
+    private List<File> authoredFiles = new ArrayList<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Course> courses;
+    private List<Course> courses = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference("user-directory")
-    private List<Directory> directories;
+    private List<Directory> directories = new ArrayList<>();
 
 }

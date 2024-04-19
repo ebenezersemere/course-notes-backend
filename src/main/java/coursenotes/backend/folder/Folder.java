@@ -7,6 +7,7 @@ import coursenotes.backend.file.File;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,11 +39,11 @@ public abstract class Folder {
 
     @OneToMany(mappedBy = "folder", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference("folder-file")
-    private List<File> files;
+    private List<File> files = new ArrayList<>();
 
     @OneToMany(mappedBy = "parentFolder", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference("folder-folder")
-    private List<Folder> childFolders;
+    private List<Folder> childFolders = new ArrayList<>();
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "parent_folder_id")
