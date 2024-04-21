@@ -1,5 +1,8 @@
 package coursenotes.backend.course;
 
+import coursenotes.backend.user.User;
+import coursenotes.backend.user.UserRepository;
+import coursenotes.backend.user.UserService;
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Calendar;
@@ -20,11 +23,15 @@ import java.util.UUID;
 
 @Service
 public class CourseService {
-    public CourseRepository courseRepository;
+    private final CourseRepository courseRepository;
+    private final UserService userService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public CourseService(CourseRepository courseRepository) {
+    public CourseService(CourseRepository courseRepository, UserService userService, UserRepository userRepository) {
         this.courseRepository = courseRepository;
+        this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     public Course createCourse(Course course) {
@@ -58,6 +65,32 @@ public class CourseService {
             courseRepository.deleteById(courseId);
         }
     }
+
+    public void addCourseToUser(UUID userId, UUID courseId) {
+        User user = userService.readUser(userId);
+        if (user == null)
+            return;
+        Course course = readCourse(courseId);
+        if (course == null)
+            return;
+        user.getCourses().add(course);
+        userRepository.save(user);
+    }
+
+    public void removeCourseFromUser(UUID userId, UUID courseId) {
+        User user = userService.readUser(userId);
+        if (user == null)
+            return;
+        Course course = readCourse(courseId);
+        if (course == null)
+            return;
+        user.getCourses().remove(course);
+        userRepository.save(user);
+    }
+
+//    public List<Course> getCoursesByUser(UUID userID) {
+//        return courseRepository.findCoursesByUserId(userID);
+//    }
 
 //    /**
 //     * uploadSchedule takes a scheduleLink and populates a list of CourseModel objects
