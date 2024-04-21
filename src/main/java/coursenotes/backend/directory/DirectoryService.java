@@ -1,5 +1,10 @@
 package coursenotes.backend.directory;
 
+import coursenotes.backend.file.File;
+import coursenotes.backend.file.FileService;
+import coursenotes.backend.user.User;
+import coursenotes.backend.user.UserRepository;
+import coursenotes.backend.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +14,14 @@ import java.util.UUID;
 @Service
 public class DirectoryService {
     private final DirectoryRepository directoryRepository;
+    private final UserService userService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public DirectoryService(DirectoryRepository directoryRepository) {
+    public DirectoryService(DirectoryRepository directoryRepository, UserService userService, UserRepository userRepository, FileService fileService) {
         this.directoryRepository = directoryRepository;
+        this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     public Directory createDirectory(Directory directory) {
@@ -42,4 +51,28 @@ public class DirectoryService {
             directoryRepository.deleteById(directoryId);
         }
     }
+
+    public void addDirectoryToUser(UUID userId, UUID directoryId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null)
+            return;
+        Directory directory = readDirectory(directoryId);
+        if (directory == null)
+            return;
+        user.getDirectories().add(directory);
+        userRepository.save(user);
+    }
+
+    public void removeDirectoryFromUser(UUID userId, UUID directoryId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null)
+            return;
+        Directory directory = readDirectory(directoryId);
+        if (directory == null)
+            return;
+        user.getDirectories().remove(directory);
+        userRepository.save(user);
+    }
+
+
 }

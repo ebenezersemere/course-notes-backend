@@ -1,6 +1,5 @@
 package coursenotes.backend.file;
 
-import coursenotes.backend.folder.Folder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,5 +39,31 @@ public class FileController {
     @DeleteMapping("/files/{fileId}")
     public void deleteFile(@PathVariable UUID fileId) {
         fileService.deleteFile(fileId);
+    }
+
+    // USERS
+    // add a file to a user
+    @PutMapping("/files/{fileId}/users/{userId}/")
+    public void addFileToUser(@PathVariable UUID userId, @PathVariable UUID fileId) {
+        fileService.addFileToUser(userId, fileId);
+    }
+
+    // remove a file from a user
+    @DeleteMapping("/files/{fileId}/users/{userId}/")
+    public void removeFileFromUser(@PathVariable UUID userId, @PathVariable UUID fileId) {
+        fileService.removeFileFromUser(userId, fileId);
+    }
+
+    // DIRECTORY
+    // add a file to a directory
+    @PutMapping("/files/{fileId}/directories/{directoryId}")
+    public void addFileToDirectory(@PathVariable UUID directoryId, @PathVariable UUID fileId) {
+        fileService.addFileToDirectory(directoryId, fileId);
+    }
+
+    // remove a file from a directory
+    @DeleteMapping("/files/{fileId}/directories/{directoryId}")
+    public void removeFileFromDirectory(@PathVariable UUID directoryId, @PathVariable UUID fileId) {
+        fileService.removeFileFromDirectory(directoryId, fileId);
     }
 }

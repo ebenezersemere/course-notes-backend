@@ -41,5 +41,18 @@ public class DirectoryController {
         directoryService.deleteDirectory(directoryId);
     }
 
+    // USERS
+    // add a directory to a user
+    @PutMapping("/directories/{directoryId}/users/{userId}")
+    public void addDirectoryToUser(@PathVariable UUID userId, @PathVariable UUID directoryId) {
+        directoryService.addDirectoryToUser(userId, directoryId);
+    }
+
+    // remove a directory from a user
+    @DeleteMapping("/directories/{directoryId}/users/{userId}")
+    public void removeDirectoryFromUser(@PathVariable UUID userId, @PathVariable UUID directoryId) {
+        directoryService.removeDirectoryFromUser(userId, directoryId);
+    }
+
 
 }

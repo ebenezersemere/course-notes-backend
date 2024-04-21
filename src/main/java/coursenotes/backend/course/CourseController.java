@@ -27,23 +27,43 @@ public class CourseController {
     }
 
     // read a course by its id
-    @GetMapping("/courses/{courseId}")
-    public ResponseEntity<Course> readCourse(@PathVariable UUID courseId) {
-        Course course = courseService.readCourse(courseId);
+    @GetMapping("/courses/{courseID}")
+    public ResponseEntity<Course> readCourse(@PathVariable UUID courseID) {
+        Course course = courseService.readCourse(courseID);
         return ResponseEntity.ok(course);
     }
 
     // update a course by its id
-    @PutMapping("/courses/{courseId}")
-    public void updateCourse(@PathVariable UUID courseId, @PathVariable Course course) {
-        courseService.updateCourse(courseId, course);
+    @PutMapping("/courses/{courseID}")
+    public void updateCourse(@PathVariable UUID courseID, @PathVariable Course course) {
+        courseService.updateCourse(courseID, course);
     }
 
     // delete a course
-    @DeleteMapping("/courses/{courseId}")
-    public void deleteCourse(@PathVariable UUID courseId) {
-        courseService.deleteCourse(courseId);
+    @DeleteMapping("/courses/{courseID}")
+    public void deleteCourse(@PathVariable UUID courseID) {
+        courseService.deleteCourse(courseID);
     }
+
+    // USERS
+//    @GetMapping("/courses/users/{userID}")
+//    public ResponseEntity<List<Course>> getCoursesByUser(@PathVariable UUID userID) {
+//        List<Course> courses = courseService.getCoursesByUser(userID);
+//        return ResponseEntity.ok(courses);
+//    }
+
+    // add a course to a user
+    @PutMapping("/courses/{courseID}/users/{userID}")
+    public void addCourseToUser(@PathVariable UUID userID, @PathVariable UUID courseID) {
+        courseService.addCourseToUser(userID, courseID);
+    }
+
+    // remove a course from a user
+    @DeleteMapping("/courses/{courseID}/users/{userID}")
+    public void removeCourseFromUser(@PathVariable UUID userID, @PathVariable UUID courseID) {
+        courseService.removeCourseFromUser(userID, courseID);
+    }
+
 
 //    @PostMapping("/uploadSchedule")
 //    public ResponseEntity<List<Course>> uploadSchedule(@RequestParam String scheduleLink) throws ParserException, IOException {
