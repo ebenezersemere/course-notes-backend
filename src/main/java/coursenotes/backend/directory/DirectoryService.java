@@ -1,5 +1,7 @@
 package coursenotes.backend.directory;
 
+import coursenotes.backend.course.Course;
+import coursenotes.backend.course.CourseRepository;
 import coursenotes.backend.file.File;
 import coursenotes.backend.file.FileService;
 import coursenotes.backend.user.User;
@@ -16,12 +18,14 @@ public class DirectoryService {
     private final DirectoryRepository directoryRepository;
     private final UserService userService;
     private final UserRepository userRepository;
+    private final CourseRepository courseRepository;
 
     @Autowired
-    public DirectoryService(DirectoryRepository directoryRepository, UserService userService, UserRepository userRepository, FileService fileService) {
+    public DirectoryService(DirectoryRepository directoryRepository, UserService userService, UserRepository userRepository, CourseRepository courseRepository) {
         this.directoryRepository = directoryRepository;
         this.userService = userService;
         this.userRepository = userRepository;
+        this.courseRepository = courseRepository;
     }
 
     public Directory createDirectory(Directory directory) {
@@ -60,6 +64,7 @@ public class DirectoryService {
         if (directory == null)
             return;
         user.getDirectories().add(directory);
+        directory.setUser(user);
         userRepository.save(user);
     }
 
@@ -71,8 +76,55 @@ public class DirectoryService {
         if (directory == null)
             return;
         user.getDirectories().remove(directory);
+        directory.setUser(user);
         userRepository.save(user);
     }
 
+    public void addDirectoryToDirectory(UUID parentDirectoryId, UUID childDirectoryId) {
+        Directory parentDirectory = readDirectory(parentDirectoryId);
+        if (parentDirectory == null)
+            return;
+        Directory childDirectory = readDirectory(childDirectoryId);
+        if (childDirectory == null)
+            return;
+        parentDirectory.getChildFolders().add(childDirectory);
+        childDirectory.setParentFolder(parentDirectory);
+        directoryRepository.save(parentDirectory);
+    }
 
+    public void removeDirectoryFromDirectory(UUID parentDirectoryId, UUID childDirectoryId) {
+        Directory parentDirectory = readDirectory(parentDirectoryId);
+        if (parentDirectory == null)
+            return;
+        Directory childDirectory = readDirectory(childDirectoryId);
+        if (childDirectory == null)
+            return;
+        parentDirectory.getChildFolders().remove(childDirectory);
+        childDirectory.setParentFolder(null);
+        directoryRepository.save(parentDirectory);
+    }
+
+    public void addDirectoryToCourse(UUID courseId, UUID directoryId) {
+        Course course = courseRepository.findById(courseId).orElse(null);
+        if (course == null)
+            return;
+        Directory directory = readDirectory(directoryId);
+        if (directory == null)
+            return;
+        course.getChildFolders().add(directory);
+        directory.setParentFolder(null);
+        courseRepository.save(course);
+    }
+
+    public void removeDirectoryFromCourse(UUID courseId, UUID directoryId) {
+        Course course = courseRepository.findById(courseId).orElse(null);
+        if (course == null)
+            return;
+        Directory directory = readDirectory(directoryId);
+        if (directory == null)
+            return;
+        course.getChildFolders().remove(directory);
+        directory.setParentFolder(null);
+        courseRepository.save(course);
+    }
 }
