@@ -66,4 +66,17 @@ public class FileController {
     public void removeFileFromDirectory(@PathVariable UUID directoryId, @PathVariable UUID fileId) {
         fileService.removeFileFromDirectory(directoryId, fileId);
     }
+
+    // COURSES
+    // add a file to a course
+    @PutMapping("/files/{fileId}/courses/{courseId}")
+    public void addFileToCourse(@PathVariable UUID courseId, @PathVariable UUID fileId) {
+        fileService.addFileToCourse(courseId, fileId);
+    }
+
+    // remove a file from a course
+    @DeleteMapping("/files/{fileId}/courses/{courseId}")
+    public void removeFileFromCourse(@PathVariable UUID courseId, @PathVariable UUID fileId) {
+        fileService.removeFileFromCourse(courseId, fileId);
+    }
 }
