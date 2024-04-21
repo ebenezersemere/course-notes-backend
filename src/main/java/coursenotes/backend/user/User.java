@@ -36,14 +36,20 @@ public class User {
     private String email;
 
     // RELATIONSHIPS
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+//    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+//    private List<File> files = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("user-file")
     private List<File> files = new ArrayList<>();
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference("author-file")
-    private List<File> authoredFiles = new ArrayList<>();
-
+    //TODO MANY TO MANY
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "user_course",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
     private List<Course> courses = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
