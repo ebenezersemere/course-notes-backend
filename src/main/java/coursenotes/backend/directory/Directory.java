@@ -1,6 +1,7 @@
 package coursenotes.backend.directory;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import coursenotes.backend.folder.Folder;
@@ -18,6 +19,7 @@ import java.util.List;
 @Getter
 @Data
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "directory")
 public class Directory extends Folder {
     @ManyToOne

@@ -37,7 +37,7 @@ public class User {
 
     // RELATIONSHIPS
 //    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-//    private List<File> files = new ArrayList<>();
+//    private List<File> accessFiles = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference("user-file")

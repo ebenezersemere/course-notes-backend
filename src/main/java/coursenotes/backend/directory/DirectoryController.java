@@ -54,5 +54,30 @@ public class DirectoryController {
         directoryService.removeDirectoryFromUser(userId, directoryId);
     }
 
+    // DIRECTORY
+    // add a directory to a directory
+    @PutMapping("/directories/{directoryId}/directories/{childDirectoryId}")
+    public void addDirectoryToDirectory(@PathVariable UUID directoryId, @PathVariable UUID childDirectoryId) {
+        directoryService.addDirectoryToDirectory(directoryId, childDirectoryId);
+    }
+
+    // remove a directory from a directory
+    @DeleteMapping("/directories/{directoryId}/directories/{childDirectoryId}")
+    public void removeDirectoryFromDirectory(@PathVariable UUID directoryId, @PathVariable UUID childDirectoryId) {
+        directoryService.removeDirectoryFromDirectory(directoryId, childDirectoryId);
+    }
+
+    // COURSES
+    // add a directory to a course
+    @PutMapping("/directories/{directoryId}/courses/{parentCourseId}")
+    public void addDirectoryToCourse(@PathVariable UUID directoryId, @PathVariable UUID parentCourseId) {
+        directoryService.addDirectoryToCourse(directoryId, parentCourseId);
+    }
+
+    // remove a directory from a course
+    @DeleteMapping("/directories/{directoryId}/courses/{parentCourseId}")
+    public void removeDirectoryFromCourse(@PathVariable UUID directoryId, @PathVariable UUID parentCourseId) {
+        directoryService.removeDirectoryFromCourse(directoryId, parentCourseId);
+    }
 
 }

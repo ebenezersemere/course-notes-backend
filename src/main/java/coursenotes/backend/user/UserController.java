@@ -52,7 +52,6 @@ public class UserController {
         userService.deleteUser(userId);
     }
 
-//
 
 //
 //    // add a course to a user
