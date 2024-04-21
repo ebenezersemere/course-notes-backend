@@ -59,8 +59,8 @@ public class File {
     private Folder folder;
 
     @ManyToOne
-    @JoinColumn(name = "author_id")
-    @JsonBackReference("author-file")
-    private User author;
+    @JoinColumn(name = "user_id")
+    @JsonBackReference("user-file")
+    private User user;
 }
 

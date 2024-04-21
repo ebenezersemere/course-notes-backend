@@ -1,5 +1,6 @@
 package coursenotes.backend.course;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import coursenotes.backend.folder.Folder;
@@ -40,10 +41,6 @@ public class Course extends Folder {
     private courseSemester courseSemester;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "user_course",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
+    @JsonIgnore
     private List<User> users = new ArrayList<>();
 }

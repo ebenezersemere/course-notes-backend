@@ -11,14 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.PROPERTY,
-        property = "type")
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = Course.class, name = "course"),
-        @JsonSubTypes.Type(value = Directory.class, name = "directory")
-})
+//@JsonTypeInfo(
+//        use = JsonTypeInfo.Id.NAME,
+//        include = JsonTypeInfo.As.PROPERTY,
+//        property = "type")
+//@JsonSubTypes({
+//        @JsonSubTypes.Type(value = Course.class, name = "course"),
+//        @JsonSubTypes.Type(value = Directory.class, name = "directory")
+//})
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -35,7 +35,6 @@ public abstract class Folder {
 
     @Column(name = "folder_name")
     private String folderName;
-
 
     @OneToMany(mappedBy = "folder", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference("folder-file")

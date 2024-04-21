@@ -33,7 +33,7 @@ public class FileService {
             updatedFile.setFileBody(file.getFileBody());
 //            updatedFile.setUsers(file.getUsers());
             updatedFile.setFolder(file.getFolder());
-            updatedFile.setAuthor(file.getAuthor());
+            updatedFile.setUser(file.getUser());
             fileRepository.save(updatedFile);
         }
     }

@@ -1,5 +1,11 @@
 package coursenotes.backend.user;
 
+import coursenotes.backend.course.Course;
+import coursenotes.backend.course.CourseService;
+import coursenotes.backend.directory.Directory;
+import coursenotes.backend.directory.DirectoryService;
+import coursenotes.backend.file.File;
+import coursenotes.backend.file.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,11 +15,17 @@ import java.util.UUID;
 
 @Service
 public class UserService {
-    private UserRepository userRepository;
+    private final FileService fileService;
+    private final UserRepository userRepository;
+    private final DirectoryService directoryService;
+    private final CourseService courseService;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, FileService fileService, DirectoryService directoryService, CourseService courseService) {
         this.userRepository = userRepository;
+        this.fileService = fileService;
+        this.directoryService = directoryService;
+        this.courseService = courseService;
     }
 
     public List<User> getUsers() {
@@ -39,9 +51,96 @@ public class UserService {
     }
 
     public void deleteUser(UUID userId) {
-        Optional<User> user = userRepository.findById(userId);
-        if (user.isPresent()) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
             userRepository.deleteById(userId);
         }
+    }
+
+    // FILES
+    public void addFile(UUID userId, UUID fileId) {
+        System.out.println("Adding file to user");
+
+        User user = readUser(userId);
+        if (user == null)
+            return;
+        File file = fileService.readFile(fileId);
+        if (file == null)
+            return;
+
+        user.getFiles().add(file);
+        file.setUser(user);
+
+        userRepository.save(user);
+    }
+
+    public void removeFile(UUID userId, UUID fileId) {
+        User user = readUser(userId);
+        if (user == null)
+            return;
+        File file = fileService.readFile(fileId);
+        if (file == null)
+            return;
+
+        user.getFiles().remove(file);
+        file.setUser(user);
+
+        userRepository.save(user);
+    }
+
+    public void addDirectory(UUID userId, UUID directoryId) {
+        User user = readUser(userId);
+        if (user == null)
+            return;
+        Directory directory = directoryService.readDirectory(directoryId);
+        if (directory == null)
+            return;
+
+        user.getDirectories().add(directory);
+        directory.setUser(user);
+
+        userRepository.save(user);
+    }
+
+    public void removeDirectory(UUID userId, UUID directoryId) {
+        User user = readUser(userId);
+        if (user == null)
+            return;
+        Directory directory = directoryService.readDirectory(directoryId);
+        if (directory == null)
+            return;
+
+        user.getDirectories().remove(directory);
+        directory.setUser(user);
+
+        userRepository.save(user);
+    }
+
+    public void addCourse(UUID userId, UUID courseId) {
+        User user = readUser(userId);
+        if (user == null)
+            return;
+        Course course = courseService.readCourse(courseId);
+        if (course == null)
+            return;
+
+        user.getCourses().add(course);
+        course.getUsers().add(user);
+
+        userRepository.save(user);
+    }
+
+    public void removeCourse(UUID userId, UUID courseId) {
+        User user = readUser(userId);
+        if (user == null)
+            return;
+        Course course = courseService.readCourse(courseId);
+        if (course == null)
+            return;
+
+        user.getCourses().remove(course);
+        course.getUsers().remove(user);
+
+        userRepository.save(user);
     }
 }
