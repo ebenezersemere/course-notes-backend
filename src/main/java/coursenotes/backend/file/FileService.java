@@ -1,5 +1,7 @@
 package coursenotes.backend.file;
 
+import coursenotes.backend.course.Course;
+import coursenotes.backend.course.CourseRepository;
 import coursenotes.backend.directory.Directory;
 import coursenotes.backend.directory.DirectoryRepository;
 import coursenotes.backend.directory.DirectoryService;
@@ -16,11 +18,13 @@ public class FileService {
     private final FileRepository fileRepository;
     private final UserRepository userRepository;
     private final DirectoryRepository directoryRepository;
+    private final CourseRepository courseRepository;
 
-    public FileService(FileRepository fileRepository, UserRepository userRepository, DirectoryRepository directoryRepository) {
+    public FileService(FileRepository fileRepository, UserRepository userRepository, DirectoryRepository directoryRepository, CourseRepository courseRepository) {
         this.fileRepository = fileRepository;
         this.userRepository = userRepository;
         this.directoryRepository = directoryRepository;
+        this.courseRepository = courseRepository;
     }
 
     public File createFile(File file) {
@@ -65,6 +69,7 @@ public class FileService {
         if (file == null)
             return;
         user.getFiles().add(file);
+        file.setUser(user);
         userRepository.save(user);
     }
 
@@ -77,6 +82,7 @@ public class FileService {
         if (file == null)
             return;
         user.getFiles().remove(file);
+        file.setUser(null);
         userRepository.save(user);
     }
 
@@ -90,6 +96,7 @@ public class FileService {
         if (file == null)
             return;
         directory.getFiles().add(file);
+        file.setFolder(directory);
         directoryRepository.save(directory);
     }
 
@@ -101,6 +108,31 @@ public class FileService {
         if (file == null)
             return;
         directory.getFiles().remove(file);
+        file.setFolder(null);
         directoryRepository.save(directory);
+    }
+
+    public void addFileToCourse(UUID courseId, UUID fileId) {
+        Course course = courseRepository.findById(courseId).orElse(null);
+        if (course == null)
+            return;
+        File file = readFile(fileId);
+        if (file == null)
+            return;
+        course.getFiles().add(file);
+        file.setFolder(course);
+        courseRepository.save(course);
+    }
+
+    public void removeFileFromCourse(UUID courseId, UUID fileId) {
+        Course course = courseRepository.findById(courseId).orElse(null);
+        if (course == null)
+            return;
+        File file = readFile(fileId);
+        if (file == null)
+            return;
+        course.getFiles().remove(file);
+        file.setFolder(null);
+        courseRepository.save(course);
     }
 }
