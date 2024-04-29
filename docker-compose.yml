@@ -1,9 +1,9 @@
-name: coursenotes-backend
-version: '3'
+name: coursenotes
 services:
   backend:
     build: .
-    container_name: spring-backend
+    container_name: backend
+    image: ebensemere/coursenotes-backend
     ports:
       - "8080:8080"
     depends_on:
@@ -13,7 +13,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
   database:
-    container_name: postgres-database
+    container_name: database
     image: postgres
     environment:
       - POSTGRES_DB=data
