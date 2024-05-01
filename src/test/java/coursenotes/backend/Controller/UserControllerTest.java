@@ -1,27 +1,47 @@
-package coursenotes.backend.User;
+package coursenotes.backend.Controller;
 
-import org.mockito.Mock;
+import coursenotes.backend.user.User;
+import coursenotes.backend.user.UserRepository;
+import coursenotes.backend.user.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import static org.mockito.Mockito.*;
+
+@Nested
 @SpringBootTest
+@Configuration
+@TestPropertySource(locations = "classpath:application.yml")
+
 @AutoConfigureMockMvc
-public class UserControllerTest {
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
     private UserRepository userRepository;
     private User mockUser;
-
-    @MockBean
     private UserService userService;
 
-    @InjectMocks
-    private UserController userController; // Target object to test
 
     @BeforeEach
     public void setUp() {
@@ -32,90 +52,114 @@ public class UserControllerTest {
 
     @Test
     public void testCreateUser() throws Exception {
-        User user = new User();
-        user.setId(1L);
-        user.setUsername("testuser");
-        user.setPassword("testpassword");
+        mockUser = new User();
+        UUID uuid = UUID.randomUUID();
+        mockUser.setUserId(uuid);
+        mockUser.setFirstName("Amy");
+        mockUser.setLastName("Liu");
+        mockUser.setEmail("amyliu@g.hmc.com");
 
-        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(mockUser);
+        when(userService.createUser(any(User.class))).thenReturn(mockUser);
+        String inputJson = new ObjectMapper().writeValueAsString(mockUser);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\":\"testuser\",\"password\":\"testpassword\"}"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.username", Matchers.is("testuser")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.password", Matchers.is("testpassword")));
+                        .content(inputJson))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.userId").value(uuid))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("Amy"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("Liu"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("amyliu@g.hmc.com"))
+        ;
+        verify(userRepository, times(1)).save(any(User.class));
     }
 
     @Test
     public void testReadUser() throws Exception {
-        User user = new User();
-        user.setId(1L);
-        user.setUsername("testuser");
-        user.setPassword("testpassword");
+        mockUser = new User();
+        UUID uuid = UUID.randomUUID();
+        mockUser.setUserId(uuid);
+        mockUser.setFirstName("Amy");
+        mockUser.setLastName("Liu");
+        mockUser.setEmail("amyliu@g.hmc.com");
 
-        Mockito.when(userService.readUser(Mockito.anyLong())).thenReturn(user);
+        when(userService.readUser(any(UUID.class))).thenReturn(mockUser);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/users/1"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.username", Matchers.is("testuser")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.password", Matchers.is("testpassword")));
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.userId").value(uuid))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("Amy"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("Liu"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("amyliu@g.hmc.com"));
     }
 
     @Test
     public void testDeleteUser() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/users/1"))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+        mockUser = new User();
+        UUID uuid = UUID.randomUUID();
+        mockUser.setUserId(uuid);
+        mockUser.setFirstName("Amy");
+        mockUser.setLastName("Liu");
+        mockUser.setEmail("amyliu@g.hmc.com");
+
+        userRepository.save(mockUser);
+
+        userRepository.deleteById(mockUser.getUserId());
+        Optional<User> deletedUser = userRepository.findById(mockUser.getUserId());
+
+        Assertions.assertFalse(deletedUser.isPresent());
     }
 
     @Test
     public void testUpdateUser() throws Exception {
-        User user = new User();
-        user.setId(1L);
-        user.setUsername("testuser");
-        user.setPassword("testpassword");
+        mockUser = new User();
+        UUID uuid = UUID.randomUUID();
+        mockUser.setUserId(uuid);
+        mockUser.setFirstName("Amy");
+        mockUser.setLastName("Liu");
+        mockUser.setEmail("amyliu@g.hmc.com");
 
-        Mockito.when(userService.updateUser(Mockito.any(User.class))).thenReturn(user);
+        User updatedUser = new User();
+        UUID uuid2 = UUID.randomUUID();
+        updatedUser.setUserId(uuid2);
+        updatedUser.setFirstName("Xiyuan");
+        updatedUser.setLastName("Liuu");
+        updatedUser.setEmail("amyliu02@g.hmc.com");
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/users")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"id\":1,\"username\":\"testuser\",\"password\":\"testpassword\"}"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.username", Matchers.is("testuser")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.password", Matchers.is("testpassword")));
+        when(userRepository.save(any(User.class))).thenReturn(updatedUser);
     }
 
     @Test
     public void testGetUsers() throws Exception {
-        User user1 = new User();
-        user1.setId(1L);
-        user1.setUsername("testuser1");
-        user1.setPassword("testpassword1");
+        User mockUser = new User();
+        UUID uuid = UUID.randomUUID();
+        mockUser.setUserId(uuid);
+        mockUser.setFirstName("Amy");
+        mockUser.setLastName("Liu");
+        mockUser.setEmail("amyliu@g.hmc.com");
 
         User user2 = new User();
-        user2.setId(2L);
-        user2.setUsername("testuser2");
-        user2.setPassword("testpassword2");
+        UUID uuid2 = UUID.randomUUID();
+        user2.setUserId(uuid2);
+        user2.setFirstName("Ebenezer");
+        user2.setLastName("Semere");
+        user2.setEmail("semere.ebenezer@g.pomona.com");
 
-        List<User> userList = Arrays.asList(user1, user2);
+        List<User> userList = Arrays.asList(mockUser, user2);
 
-        Mockito.when(userService.getUsers()).thenReturn(userList);
+        when(userService.getUsers()).thenReturn(userList);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/users"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Matchers.is(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].username", Matchers.is("testuser1")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].password", Matchers.is("testpassword1")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id", Matchers.is(2)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].username", Matchers.is("testuser2")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].password", Matchers.is("testpassword2")));
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].userId").value(uuid))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].firstName").value("Amy"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].lastName").value("Liu"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].email").value("amyliu@g.hmc.com"));
     }
-
-
-
-
-
 }
+
+
+
+
+
+

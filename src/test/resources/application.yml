@@ -1,4 +1,5 @@
 ## LOCAL VERSION
+
 spring:
   application:
     name: backend
@@ -28,6 +29,7 @@ spring:
       path: /swagger-ui.html
   config:
     import: secrets.properties
+
 
 
 ## DOCKER VERSION
