@@ -43,13 +43,13 @@ public class FileController {
 
     // USERS
     // add a file to a user
-    @PutMapping("/files/{fileId}/users/{userId}/")
+    @PutMapping("/files/{fileId}/users/{userId}")
     public void addFileToUser(@PathVariable UUID userId, @PathVariable UUID fileId) {
         fileService.addFileToUser(userId, fileId);
     }
 
     // remove a file from a user
-    @DeleteMapping("/files/{fileId}/users/{userId}/")
+    @DeleteMapping("/files/{fileId}/users/{userId}")
     public void removeFileFromUser(@PathVariable UUID userId, @PathVariable UUID fileId) {
         fileService.removeFileFromUser(userId, fileId);
     }
