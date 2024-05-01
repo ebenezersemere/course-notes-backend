@@ -34,13 +34,30 @@ public class UserService {
         return userRepository.findById(userId).orElse(null);
     }
 
-    public void updateUser(UUID userId, User formerUser) {
+    public void updateUser(UUID userId, User user) {
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isPresent()) {
-            formerUser.setFirstName(formerUser.getFirstName());
-            formerUser.setLastName(formerUser.getLastName());
-            formerUser.setEmail((formerUser.getEmail()));
-            userRepository.save(formerUser);
+            User updatedUser = userOptional.get();
+            updatedUser.setFirstName(user.getFirstName());
+            updatedUser.setLastName(user.getLastName());
+            updatedUser.setEmail(user.getEmail());
+
+            if (user.getFiles() != null) {
+                updatedUser.getFiles().clear();
+                updatedUser.getFiles().addAll(user.getFiles());
+            }
+
+            if (user.getDirectories() != null) {
+                updatedUser.getDirectories().clear();
+                updatedUser.getDirectories().addAll(user.getDirectories());
+            }
+
+            if (user.getCourses() != null) {
+                updatedUser.getCourses().clear();
+                updatedUser.getCourses().addAll(user.getCourses());
+            }
+
+            userRepository.save(updatedUser);
         }
     }
 

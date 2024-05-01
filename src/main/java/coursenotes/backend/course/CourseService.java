@@ -47,14 +47,31 @@ public class CourseService {
         if (courseOptional.isPresent()) {
             Course updatedCourse = courseOptional.get();
             updatedCourse.setFolderName(course.getFolderName());
-            updatedCourse.setFiles(course.getFiles());
-            updatedCourse.setChildFolders(course.getChildFolders());
+
+
+            // Update files if needed
+            if (course.getFiles() != null) {
+                updatedCourse.getFiles().clear();
+                updatedCourse.getFiles().addAll(course.getFiles());
+            }
+
+            // Update child folders if needed
+            if (course.getChildFolders() != null) {
+                updatedCourse.getChildFolders().clear();
+                updatedCourse.getChildFolders().addAll(course.getChildFolders());
+            }
+
+            // Update users if needed
+            if (course.getUsers() != null) {
+                updatedCourse.getUsers().clear();
+                updatedCourse.getUsers().addAll(course.getUsers());
+            }
+
             updatedCourse.setParentFolder(course.getParentFolder());
             updatedCourse.setCourseUID(course.getCourseUID());
             updatedCourse.setCourseDescription(course.getCourseDescription());
             updatedCourse.setCourseLocation(course.getCourseLocation());
             updatedCourse.setCourseSemester(course.getCourseSemester());
-            updatedCourse.setUsers(course.getUsers());
             courseRepository.save(updatedCourse);
         }
     }

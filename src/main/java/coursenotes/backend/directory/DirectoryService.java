@@ -16,14 +16,12 @@ import java.util.UUID;
 @Service
 public class DirectoryService {
     private final DirectoryRepository directoryRepository;
-    private final UserService userService;
-    private final UserRepository userRepository;
     private final CourseRepository courseRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public DirectoryService(DirectoryRepository directoryRepository, UserService userService, UserRepository userRepository, CourseRepository courseRepository) {
+    public DirectoryService(DirectoryRepository directoryRepository, UserRepository userRepository, CourseRepository courseRepository) {
         this.directoryRepository = directoryRepository;
-        this.userService = userService;
         this.userRepository = userRepository;
         this.courseRepository = courseRepository;
     }

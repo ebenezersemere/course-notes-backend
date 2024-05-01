@@ -3,7 +3,7 @@ services:
   backend:
     build: .
     container_name: backend
-    image: ebensemere/coursenotes-backend
+    image: ebensemere/coursenotes-backend:mac
     ports:
       - "8080:8080"
     depends_on:
