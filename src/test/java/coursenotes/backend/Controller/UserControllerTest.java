@@ -4,10 +4,15 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import static org.mockito.Mockito.*;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class UserControllerTest {
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    @Autowired
+    private MockMvc mockMvc;
+
     @MockBean
     private UserRepository userRepository;
     private User mockUser;
@@ -24,8 +29,7 @@ public class UserControllerTest {
     }
 
     // test that a user is being created
-    @Autowired
-    private MockMvc mockMvc;
+
     @Test
     public void testCreateUser() throws Exception {
         User user = new User();
@@ -33,7 +37,7 @@ public class UserControllerTest {
         user.setUsername("testuser");
         user.setPassword("testpassword");
 
-        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(user);
+        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(mockUser);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -109,6 +113,7 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].username", Matchers.is("testuser2")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].password", Matchers.is("testpassword2")));
     }
+
 
 
 

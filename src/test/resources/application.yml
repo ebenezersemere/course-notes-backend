@@ -1,0 +1,62 @@
+## LOCAL VERSION
+spring:
+  application:
+    name: backend
+  datasource:
+    url: jdbc:postgresql://localhost:5432/data
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+      database: postgresql
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: ${GITHUB_CLIENT_ID}
+            client-secret: ${GITHUB_CLIENT_SECRET}
+  springdoc:
+    swagger-ui:
+      path: /swagger-ui.html
+  config:
+    import: secrets.properties
+
+
+## DOCKER VERSION
+#spring:
+#  application:
+#    name: backend
+#  datasource:
+#    url: jdbc:postgresql://postgres:5432/backend-data-postgres
+#    username: postgres
+#    password: postgres
+#    driver-class-name: org.postgresql.Driver
+#  jpa:
+#    hibernate:
+#      ddl-auto: create-drop
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+#      database: postgresql
+#      database-platform: org.hibernate.dialect.PostgreSQLDialect
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          github:
+#            client-id: ${GITHUB_CLIENT_ID}
+#            client-secret: ${GITHUB_CLIENT_SECRET}
+#  springdoc:
+#    swagger-ui:
+#      path: /swagger-ui.html
+#  config:
+#    import: secrets.properties
