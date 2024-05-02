@@ -66,4 +66,27 @@ public class UserControllerTest {
         verify(userRepository, times(1)).save(any(User.class));
     }
 
+    @Test
+    public void testReadUser() throws Exception {
+        // Create a mock user object
+        User mockUser = new User();
+        UUID uuid = UUID.fromString("cdd56295-fad7-4fa8-9bd8-3ae80ff8e5a9");
+        mockUser.setUserId(uuid);
+        mockUser.setFirstName("Amy");
+        mockUser.setLastName("Liu");
+        mockUser.setEmail("amyliu@g.hmc.com");
+
+        // Configure the mock repository to return the mock user when findById is called with the specific UUID
+        when(userRepository.findById(uuid)).thenReturn(Optional.of(mockUser));
+
+        // Perform the GET request to /users/{uuid} endpoint
+        mockMvc.perform(MockMvcRequestBuilders.get("/users/" + uuid))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.userId").value(uuid.toString()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("Amy"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("Liu"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("amyliu@g.hmc.com"));
+    }
+
+
 }
