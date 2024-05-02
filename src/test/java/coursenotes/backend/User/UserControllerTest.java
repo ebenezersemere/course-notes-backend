@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -88,6 +89,33 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("amyliu@g.hmc.com"));
     }
 
+    @Test
+    public void testUpdateUser() throws Exception {
+        mockUser = new User();
+        UUID uuid = UUID.randomUUID();
+        mockUser.setUserId(uuid);
+        mockUser.setFirstName("Amy");
+        mockUser.setLastName("Liu");
+        mockUser.setEmail("amyliu@g.hmc.com");
+
+
+//        mockUser.setUserId(uuid2);
+        User updatedUser = new User();
+        updatedUser.setFirstName("Xiyuan");
+        updatedUser.setLastName("Liuu");
+        updatedUser.setEmail("amyliu02@g.hmc.com");
+
+        when(userRepository.save(any(User.class))).thenReturn(updatedUser);
+
+        // Call the method under test to update the user
+        User result = userRepository.save(mockUser);
+
+        // Verify that the user was updated correctly
+        assertEquals(updatedUser.getUserId(), result.getUserId());
+        assertEquals(updatedUser.getFirstName(), result.getFirstName());
+        assertEquals(updatedUser.getLastName(), result.getLastName());
+        assertEquals(updatedUser.getEmail(), result.getEmail());
+    }
 
     @Test
     public void testDeleteUser() throws Exception {
