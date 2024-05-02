@@ -89,4 +89,58 @@ public class UserControllerTest {
     }
 
 
+    @Test
+    public void testDeleteUser() throws Exception {
+        // Create a mock user object
+        User mockUser = new User();
+        UUID uuid = UUID.fromString("cdd56295-fad7-4fa8-9bd8-3ae80ff8e5a9");
+        mockUser.setUserId(uuid);
+        mockUser.setFirstName("Amy");
+        mockUser.setLastName("Liu");
+        mockUser.setEmail("amyliu@g.hmc.com");
+
+        // Configure the mock repository to return true when existsById is called with the specific UUID
+        when(userRepository.existsById(uuid)).thenReturn(true);
+
+        // Perform the DELETE request to /users/{uuid} endpoint
+        mockMvc.perform(MockMvcRequestBuilders.delete("/users/" + uuid))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
+
+    @Test
+    public void testGetUsers() throws Exception {
+        // Create mock user objects
+        User mockUser1 = new User();
+        UUID uuid1 = UUID.fromString("cdd56295-fad7-4fa8-9bd8-3ae80ff8e5a9");
+        mockUser1.setUserId(uuid1);
+        mockUser1.setFirstName("Amy");
+        mockUser1.setLastName("Liu");
+        mockUser1.setEmail("amyliu@g.hmc.com");
+
+        User mockUser2 = new User();
+        UUID uuid2 = UUID.randomUUID();
+        mockUser2.setUserId(uuid2);
+        mockUser2.setFirstName("Ebenezer");
+        mockUser2.setLastName("Semere");
+        mockUser2.setEmail("semere.ebenezer@g.pomona.com");
+
+        List<User> userList = Arrays.asList(mockUser1, mockUser2);
+
+        // Configure the mock service to return the list of users when getUsers is called
+
+        when(userRepository.findAll()).thenReturn(userList);
+
+        // Perform the GET request to /users endpoint
+        mockMvc.perform(MockMvcRequestBuilders.get("/users"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].userId").value(uuid1.toString()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].firstName").value("Amy"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].lastName").value("Liu"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].email").value("amyliu@g.hmc.com"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].userId").value(uuid2.toString()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].firstName").value("Ebenezer"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].lastName").value("Semere"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].email").value("semere.ebenezer@g.pomona.com"));
+    }
+
 }
