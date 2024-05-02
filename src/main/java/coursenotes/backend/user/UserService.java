@@ -41,11 +41,13 @@ public class UserService {
             updatedUser.setFirstName(user.getFirstName());
             updatedUser.setLastName(user.getLastName());
             updatedUser.setEmail(user.getEmail());
-
-            if (user.getFiles() != null) {
-                updatedUser.getFiles().clear();
-                updatedUser.getFiles().addAll(user.getFiles());
-            }
+//
+//            if (user.getFiles() != null) {
+//                updatedUser.getFiles().clear();
+//                updatedUser.getFiles().addAll(user.getFiles());
+//            }
+//
+            updatedUser.setFileIds(user.getFileIds());
 
             if (user.getDirectories() != null) {
                 updatedUser.getDirectories().clear();

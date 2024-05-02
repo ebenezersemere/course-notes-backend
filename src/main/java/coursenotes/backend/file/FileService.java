@@ -68,7 +68,8 @@ public class FileService {
         File file = readFile(fileId);
         if (file == null)
             return;
-        user.getFiles().add(file);
+        user.getFileIds().add(fileId);
+//        user.getFiles().add(file);
         file.setUser(user);
         userRepository.save(user);
     }
@@ -81,7 +82,8 @@ public class FileService {
         File file = readFile(fileId);
         if (file == null)
             return;
-        user.getFiles().remove(file);
+//        user.getFiles().remove(file);
+        user.getFileIds().remove(fileId);
         file.setUser(null);
         userRepository.save(user);
     }

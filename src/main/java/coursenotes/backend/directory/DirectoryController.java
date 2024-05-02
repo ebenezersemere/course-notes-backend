@@ -35,7 +35,7 @@ public class DirectoryController {
         directoryService.updateDirectory(directoryId, directory);
     }
 
-    // delete a directory
+    // delete a directory by its id
     @DeleteMapping("/directories/{directoryId}")
     public void deleteDirectory(@PathVariable UUID directoryId) {
         directoryService.deleteDirectory(directoryId);

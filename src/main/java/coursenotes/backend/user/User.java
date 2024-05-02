@@ -39,10 +39,15 @@ public class User {
 //    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 //    private List<File> accessFiles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference("user-file")
-    private List<File> files = new ArrayList<>();
-
+    @ElementCollection
+    @CollectionTable(name = "user_files", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "file_id")
+    private List<UUID> fileIds = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JsonManagedReference("user-file")
+//    private List<File> files = new ArrayList<>();
+//
     //TODO MANY TO MANY
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(

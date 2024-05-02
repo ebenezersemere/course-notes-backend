@@ -26,4 +26,7 @@ public class Directory extends Folder {
     @JoinColumn(name = "user_id")
     @JsonBackReference("user-directory")
     private User user;
+
+    @Column(name="user_string")
+    private String userString;
 }
