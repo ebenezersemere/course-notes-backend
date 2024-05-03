@@ -1,1 +1,5 @@
+This Java Spring backend application provides a RESTful API for managing files, courses, and directories. 
+It allows users to create, read, update, and delete (CRUD) these entities, as well as manage the relationships between those. 
+For a complete list of endpoints, pleaase visit /swagger-ui/index.html
+
 Run with docker using build.sh
