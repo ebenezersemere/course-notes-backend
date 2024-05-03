@@ -1,2 +1,1 @@
-### Running with Docker
-execute "build.sh"
+Run with docker using build.sh
