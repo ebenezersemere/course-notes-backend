@@ -62,5 +62,8 @@ public class File {
     @JoinColumn(name = "user_id")
     @JsonBackReference("user-file")
     private User user;
+
+    @Column(name="user_string")
+    private String userString;
 }
 

@@ -68,9 +68,12 @@ public class FileService {
         File file = readFile(fileId);
         if (file == null)
             return;
-        user.getFileIds().add(fileId);
-//        user.getFiles().add(file);
+
+        user.getFileIds().add(fileId); // serialize file id
+//        user.getFiles().add(file); // serialize entire file
+
         file.setUser(user);
+        file.setUserString(userId.toString());
         userRepository.save(user);
     }
 

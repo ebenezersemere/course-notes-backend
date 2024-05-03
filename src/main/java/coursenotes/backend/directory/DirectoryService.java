@@ -95,6 +95,7 @@ public class DirectoryService {
             return;
         user.getDirectories().add(directory);
         directory.setUser(user);
+        directory.setUserString(userId.toString());
         userRepository.save(user);
     }
 
