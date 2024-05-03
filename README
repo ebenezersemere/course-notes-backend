@@ -1,3 +1,2 @@
 ### Running with Docker
-The backend & database dependency can be installed from a maintained image configured in the docker-compose file.
-Run `docker compose up` from a folder containing both the docker-compose.yml and the Dockerfile.
+execute "build.sh"
