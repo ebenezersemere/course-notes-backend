@@ -99,7 +99,6 @@ public class UserControllerTest {
         mockUser.setEmail("amyliu@g.hmc.com");
 
 
-//        mockUser.setUserId(uuid2);
         User updatedUser = new User();
         updatedUser.setFirstName("Xiyuan");
         updatedUser.setLastName("Liuu");
@@ -155,7 +154,6 @@ public class UserControllerTest {
         List<User> userList = Arrays.asList(mockUser1, mockUser2);
 
         // Configure the mock service to return the list of users when getUsers is called
-
         when(userRepository.findAll()).thenReturn(userList);
 
         // Perform the GET request to /users endpoint

@@ -1,0 +1,9 @@
+Both
+- user + controller + repository layers
+- pair programmed service layers for directory course and file
+- test suite
+
+Ebenezer
+- service layers
+
+
