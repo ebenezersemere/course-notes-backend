@@ -1,5 +1,8 @@
+CourseNotes is a note taking application that allows users to share notes with others.
+
 This Java Spring backend application provides a RESTful API for managing files, courses, and directories. 
 It allows users to create, read, update, and delete (CRUD) these entities, as well as manage the relationships between those. 
-For a complete list of endpoints, pleaase visit /swagger-ui/index.html
+For a complete list of endpoints, pleaase, once running locally, visit localhost:8080/swagger-ui/index.html.
 
-Run with docker using build.sh
+# Usage
+This application can be ran by cloning the repository, and running `docker compose up`. This will pull the backend container & database container and connect them on a network.
