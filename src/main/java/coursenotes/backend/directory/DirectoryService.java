@@ -34,19 +34,6 @@ public class DirectoryService {
         return directoryRepository.findById(directoryId).orElse(null);
     }
 
-//    public void updateDirectory(UUID directoryId, Directory directory) {
-//        Optional<Directory> directoryOptional = directoryRepository.findById(directoryId);
-//        if (directoryOptional.isPresent()) {
-//            Directory updatedDirectory = directoryOptional.get();
-//            updatedDirectory.setFolderName(directory.getFolderName());
-//            updatedDirectory.setFiles(directory.getFiles());
-//            updatedDirectory.setChildFolders(directory.getChildFolders());
-//            updatedDirectory.setParentFolder(directory.getParentFolder());
-//            updatedDirectory.setUser(directory.getUser());
-//            directoryRepository.save(updatedDirectory);
-//        }
-//    }
-
     public void updateDirectory(UUID directoryId, Directory directory) {
         Optional<Directory> directoryOptional = directoryRepository.findById(directoryId);
         if (directoryOptional.isPresent()) {
@@ -55,23 +42,15 @@ public class DirectoryService {
 
             // Update files if needed
             if (directory.getFiles() != null) {
-//                updatedDirectory.setFiles(directory.getFiles());
                 updatedDirectory.getFiles().clear();
                 updatedDirectory.getFiles().addAll(directory.getFiles());
             }
 
             // Update child folders if needed
             if (directory.getChildFolders() != null) {
-//                updatedDirectory.setChildFolders(directory.getChildFolders());
                 updatedDirectory.getChildFolders().clear();
                 updatedDirectory.getChildFolders().addAll(directory.getChildFolders());
             }
-
-//            // Update parent folder if needed
-//            if (directory.getParentFolder() != null) {
-//                updatedDirectory.setParentFolder(directory.getParentFolder());
-//            }
-
 //            updatedDirectory.setUser(directory.getUser());
             directoryRepository.save(updatedDirectory);
         } else {

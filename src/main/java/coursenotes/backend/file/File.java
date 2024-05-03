@@ -41,18 +41,6 @@ public class File {
     @Column(name = "file_body", columnDefinition = "TEXT")
     private String fileBody;
 
-//    @Column(name = "file_url")
-//    private String fileUrl;
-
-    // RELATIONSHIPS
-//    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-//    @JoinTable(
-//            name = "user_file",
-//            joinColumns = @JoinColumn(name = "file_id"),
-//            inverseJoinColumns = @JoinColumn(name = "user_id")
-//    )
-//    private List<User> users = new ArrayList<>();
-
     @ManyToOne
     @JoinColumn(name = "folder_id")
     @JsonBackReference("folder-file")

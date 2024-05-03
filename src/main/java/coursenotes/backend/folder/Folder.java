@@ -11,14 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-//@JsonTypeInfo(
-//        use = JsonTypeInfo.Id.NAME,
-//        include = JsonTypeInfo.As.PROPERTY,
-//        property = "type")
-//@JsonSubTypes({
-//        @JsonSubTypes.Type(value = Course.class, name = "course"),
-//        @JsonSubTypes.Type(value = Directory.class, name = "directory")
-//})
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter

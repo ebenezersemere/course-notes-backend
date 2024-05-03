@@ -1,17 +1,11 @@
 package coursenotes.backend.Directory;
 
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import coursenotes.backend.directory.Directory;
 import coursenotes.backend.directory.DirectoryRepository;
-import coursenotes.backend.directory.DirectoryService;
-import coursenotes.backend.user.User;
-import coursenotes.backend.user.UserRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,8 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -84,7 +76,7 @@ public class DirectoryControllerTest {
 
 
     @Test
-    public void testUpdateDirectory() throws Exception {
+    public void testUpdateDirectory() {
         mockDirectory = new Directory();
         UUID uuid = UUID.randomUUID();
         mockDirectory.setFolderId(uuid);

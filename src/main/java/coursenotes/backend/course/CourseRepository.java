@@ -10,6 +10,4 @@ import java.util.UUID;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, UUID> {
-//    @Query("SELECT c FROM Course c INNER JOIN c.users u WHERE u.id = :userId")
-//    List<Course> findCoursesByUserId(@Param("userId") UUID userId);
 }

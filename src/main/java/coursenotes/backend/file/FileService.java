@@ -70,7 +70,6 @@ public class FileService {
             return;
 
         user.getFileIds().add(fileId); // serialize file id
-//        user.getFiles().add(file); // serialize entire file
 
         file.setUser(user);
         file.setUserString(userId.toString());
@@ -86,14 +85,12 @@ public class FileService {
         File file = readFile(fileId);
         if (file == null)
             return;
-//        user.getFiles().remove(file);
         user.getFileIds().remove(fileId);
         file.setUser(null);
         userRepository.save(user);
     }
 
     // DIRECTORY
-    // add a file to a directory
     public void addFileToDirectory(UUID directoryId, UUID fileId) {
         Directory directory = directoryRepository.findById(directoryId).orElse(null);
         if (directory == null)

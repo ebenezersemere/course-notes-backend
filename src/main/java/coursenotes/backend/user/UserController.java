@@ -52,25 +52,4 @@ public class UserController {
         userService.deleteUser(userId);
     }
 
-
-//
-//    // add a course to a user
-//    @PutMapping("/users/{userId}/courses/{courseId}")
-//    public void addCourse(@PathVariable UUID userId, @PathVariable UUID courseId) {
-//        userService.addCourse(userId, courseId);
-//    }
-//
-//    // remove a course from a user
-//    @DeleteMapping("/users/{userId}/courses/{courseId}")
-//    public void removeCourse(@PathVariable UUID userId, @PathVariable UUID courseId) {
-//        userService.removeCourse(userId, courseId);
-//    }
-//
-//
-//    // get
-//    @GetMapping("/user")
-//    @ResponseStatus(HttpStatus.OK)
-//    public UserModel getUser(@AuthenticationPrincipal OAuth2User principal) {
-//        return userService.getUser(principal);
-//    }
 }

@@ -35,20 +35,12 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    // RELATIONSHIPS
-//    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-//    private List<File> accessFiles = new ArrayList<>();
-
     @ElementCollection
     @CollectionTable(name = "user_files", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "file_id")
     private List<UUID> fileIds = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JsonManagedReference("user-file")
-//    private List<File> files = new ArrayList<>();
-//
-    //TODO MANY TO MANY
+
+    // TODO: test ManyToMany relationship
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "user_course",

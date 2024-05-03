@@ -8,6 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface DirectoryRepository extends JpaRepository<Directory, UUID> {
-//    List<Directory> findByUserId(UUID userId);
 }
 
