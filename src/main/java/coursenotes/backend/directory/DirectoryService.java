@@ -67,12 +67,12 @@ public class DirectoryService {
                 updatedDirectory.getChildFolders().addAll(directory.getChildFolders());
             }
 
-            // Update parent folder if needed
-            if (directory.getParentFolder() != null) {
-                updatedDirectory.setParentFolder(directory.getParentFolder());
-            }
+//            // Update parent folder if needed
+//            if (directory.getParentFolder() != null) {
+//                updatedDirectory.setParentFolder(directory.getParentFolder());
+//            }
 
-            updatedDirectory.setUser(directory.getUser());
+//            updatedDirectory.setUser(directory.getUser());
             directoryRepository.save(updatedDirectory);
         } else {
             throw new IllegalArgumentException("Directory not found with ID: " + directoryId);

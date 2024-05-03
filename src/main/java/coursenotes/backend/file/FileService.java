@@ -5,6 +5,7 @@ import coursenotes.backend.course.CourseRepository;
 import coursenotes.backend.directory.Directory;
 import coursenotes.backend.directory.DirectoryRepository;
 import coursenotes.backend.directory.DirectoryService;
+import coursenotes.backend.folder.Folder;
 import coursenotes.backend.user.User;
 import coursenotes.backend.user.UserRepository;
 import coursenotes.backend.user.UserService;
@@ -38,16 +39,15 @@ public class FileService {
     public void updateFile(UUID fileId, File file) {
         Optional<File> fileOptional = fileRepository.findById(fileId);
         if (fileOptional.isPresent()) {
-            File updatedFile = fileRepository.findById(fileId).get();
-            updatedFile.setFileName(file.getFileName());
+            File updatedFile = fileOptional.get();
 
+            updatedFile.setFileName(file.getFileName());
             updatedFile.setDateCreated(file.getDateCreated());
             updatedFile.setDateModified(file.getDateModified());
             updatedFile.setIsShared(file.getIsShared());
             updatedFile.setFileBody(file.getFileBody());
-//            updatedFile.setUsers(file.getUsers());
-            updatedFile.setFolder(file.getFolder());
-            updatedFile.setUser(file.getUser());
+
+            updatedFile.setUserString(file.getUserString());
             fileRepository.save(updatedFile);
         }
     }
@@ -75,6 +75,7 @@ public class FileService {
         file.setUser(user);
         file.setUserString(userId.toString());
         userRepository.save(user);
+        fileRepository.save(file);
     }
 
     // remove a file from a user

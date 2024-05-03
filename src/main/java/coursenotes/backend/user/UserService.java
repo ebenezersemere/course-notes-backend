@@ -54,10 +54,10 @@ public class UserService {
                 updatedUser.getDirectories().addAll(user.getDirectories());
             }
 
-            if (user.getCourses() != null) {
-                updatedUser.getCourses().clear();
-                updatedUser.getCourses().addAll(user.getCourses());
-            }
+//            if (user.getCourses() != null) {
+//                updatedUser.getCourses().clear();
+//                updatedUser.getCourses().addAll(user.getCourses());
+//            }
 
             userRepository.save(updatedUser);
         }

@@ -48,7 +48,6 @@ public class CourseService {
             Course updatedCourse = courseOptional.get();
             updatedCourse.setFolderName(course.getFolderName());
 
-
             // Update files if needed
             if (course.getFiles() != null) {
                 updatedCourse.getFiles().clear();
